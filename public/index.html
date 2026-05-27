@@ -326,6 +326,7 @@ footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
 <a class="skip-link" href="#main">Skip to main content</a>
 <div id="a11y-bar" role="status">&#9678; Accessibility mode active — larger text, enhanced focus indicators</div>
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
+<canvas id="tech-canvas" aria-hidden="true" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.13;pointer-events:none;"></canvas>
 
 <!-- ROAMING ROBOT -->
 <div id="roaming-robot" aria-hidden="true">
@@ -906,6 +907,65 @@ footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
   window.addEventListener('resize',resize);resize();draw();
 })();
 
+/* ══ TECH WORDS CANVAS ══ */
+(function(){
+  const c=document.getElementById('tech-canvas'),ctx=c.getContext('2d');
+  const WORDS=['Java','Python','Kotlin','JavaScript','TypeScript','C#','Node.js',
+    'Express','MySQL','Firebase','MongoDB','REST API','HTML5','CSS3','Git',
+    'Docker','Android','AI','LLM','NLP','Groq','ASP.NET','SDLC','Agile',
+    'OOP','JSON','CSS Grid','Flexbox','JWT','OAuth','npm','GitHub','VS Code',
+    'Full-Stack','Machine Learning','Prompt Eng','API','CSS3','SQL','NoSQL',
+    '01010101','10110100','function(){}','const x =>','git commit','npm start',
+    'SELECT *','JOIN','INDEX','async/await','Promise','fetch()','useState',
+    '<div>','</div>','{ }','[ ]','null','undefined','true','false','return',
+    '==','===','&&','||','//','/*','*/','#include','import','export default'];
+  let W,H,words=[];
+  const isDark=()=>document.documentElement.getAttribute('data-theme')!=='light';
+
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;initWords();}
+
+  function initWords(){
+    words=[];
+    const count=Math.floor(W*H/28000);
+    for(let i=0;i<count;i++) words.push(makeWord(true));
+  }
+
+  function makeWord(randomY){
+    const w=WORDS[Math.floor(Math.random()*WORDS.length)];
+    const size=Math.random()*7+9;
+    return{
+      text:w,
+      x:Math.random()*W,
+      y:randomY?Math.random()*H:-20,
+      vy:Math.random()*.35+.12,
+      vx:(Math.random()-.5)*.18,
+      size,
+      alpha:Math.random()*.5+.25,
+      color:Math.floor(Math.random()*3)
+    };
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const dark=isDark();
+    const palette=dark
+      ?['rgba(0,255,247,','rgba(0,102,255,','rgba(0,255,136,']
+      :['rgba(0,80,120,','rgba(0,50,180,','rgba(0,100,80,'];
+    words.forEach(w=>{
+      ctx.font=`${w.size}px 'Share Tech Mono',monospace`;
+      ctx.fillStyle=palette[w.color]+w.alpha+')';
+      ctx.fillText(w.text,w.x,w.y);
+      w.y+=w.vy; w.x+=w.vx;
+      if(w.y>H+20){Object.assign(w,makeWord(false));w.y=-20;}
+      if(w.x<-120)w.x=W+10;
+      if(w.x>W+120)w.x=-10;
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize();draw();
+})();
+
 /* ══ FIX 2: ROAMING ROBOT — never stops ══ */
 (function(){
   const el=document.getElementById('roaming-robot');
@@ -1072,48 +1132,221 @@ document.querySelectorAll('.blog-card').forEach(el=>{
 
 /* ══ CV DOWNLOAD ══ */
 const CV_TEXT=`MURUNWA MUDZHADZHI
-Software Developer | Software Development Specialisation
-Gauteng, South Africa
+Software Developer & AI Engineer | Diploma in Information & Communication Technology
+Pretoria, Gauteng, South Africa
 
 CONTACT
 Phone: 073 995 2234 | 065 871 8301
 Email: m.murunwa777@gmail.com
 GitHub: github.com/MurunwaMudzhadzhi
 LinkedIn: linkedin.com/in/murunwa-mudzhadzhi-270197251
+Portfolio: https://portfolio-xzh2.onrender.com
 
 PROFESSIONAL SUMMARY
-A motivated and results-driven Software Developer with hands-on experience building
-applications across desktop, web, mobile, and AI platforms. Distinction-holder in
-Databases, Programming, and Project Management. Seeking an entry-level software
-development role where I can contribute immediately and grow within a professional team.
+Full-stack software developer specialising in desktop, web, mobile, and AI-powered
+applications. Distinction-holder in Databases, Programming, and Project Management
+from IIE Rosebank College. Passionate about building clean, scalable, and user-centred
+systems. Actively seeking opportunities to contribute to forward-thinking teams and
+deliver impactful software solutions across web, mobile, desktop, and AI technologies.
 
 TECHNICAL SKILLS
-Languages: Java, Kotlin, JavaScript, TypeScript, C#, ASP.NET
-Web & AI: HTML5, CSS3, REST APIs, Node.js, Express.js, Groq API, LLM Integration
-Databases: MySQL, Firebase, Firestore, MongoDB, Oracle, MS SQL, Azure SQL
-Mobile: Android SDK, Material Design, Geolocation API
-Tools: VS Code, Visual Studio, Android Studio, NetBeans, Git, GitHub, Docker
-Methodologies: Agile/Scrum, OOP, MVC, SDLC, Software Testing, QA
+Languages:    Java, Kotlin, JavaScript, TypeScript, C#, ASP.NET, Python
+Web & AI:     HTML5, CSS3, REST APIs, Node.js, Express.js, Groq API, LLM Integration, NLP
+Databases:    MySQL, Firebase, Firestore, MongoDB, Oracle, MS SQL, Azure SQL
+Mobile:       Android SDK, Kotlin, Material Design, Geolocation API
+Tools & IDEs: VS Code, Visual Studio, Android Studio, NetBeans, Git, GitHub, Docker
+Practices:    Agile/Scrum, OOP, MVC, SDLC, Software Testing, QA, Prompt Engineering
 
-EDUCATION
-Diploma in Information & Communication Technology — IIE Rosebank College | 2022-2024
-Specialisation: Software Development | Certified: December 2024
-Distinctions: Databases, Programming, Project Management
+WORK EXPERIENCE
 
-National Senior Certificate — Cullinan Secondary School | Matriculated 2020
+End-to-End Technology Practitioner — CAPACITI
+April 2026 – Present | Braamfontein, Johannesburg
+- Participating in an intensive industry-focused programme covering full-stack
+  development, AI integration, cloud technologies, and professional workplace readiness.
+- Designing, developing, testing, and deploying modern web applications and AI-powered
+  systems using agile development methodologies.
+- Built and contributed to real-world projects including AI chatbots, content generation
+  platforms, sentiment analysis systems, and responsive full-stack applications.
+- Developed frontend interfaces using HTML, CSS, JavaScript, and modern UI/UX practices
+  to create accessible, user-friendly digital experiences.
+- Worked on backend logic, API integration, and system optimisation to improve
+  performance, scalability, and usability across projects.
+- Applied Git/GitHub version control, debugging, and collaborative coding practices
+  within team-based development environments.
+- Gained practical exposure to deployment workflows, technical presentations, and
+  solving real-world business challenges through technology.
+
+Teacher Assistant — Cullinan Secondary School
+June 2025 – November 2025 | Cullinan, South Africa
+- Assisted educators with classroom management, lesson preparation, and delivery of
+  structured learning activities across multiple subjects.
+- Provided one-on-one academic support and tutoring to improve learner understanding,
+  engagement, and performance.
+- Supported administrative duties including report preparation, coordination of school
+  events, and maintaining learner records.
+- Helped create a positive, inclusive learning environment that encouraged learner
+  participation and academic growth.
+- Strengthened communication, leadership, teamwork, and problem-solving skills.
 
 PROJECTS
-ContentGen AI - Groq (2025) | github.com/MurunwaMudzhadzhi/contentgen-ai-groq
-AI ChatBot (2025) | github.com/MurunwaMudzhadzhi/AIChatBot
-Dev Portfolio (2025) | github.com/MurunwaMudzhadzhi/Portfolio
-LuminaSenAna (2025) | github.com/MurunwaMudzhadzhi/LuminaSenAna
-Chatbot (2025) | github.com/MurunwaMudzhadzhi/chatbot
+
+NEXUS AI EDU — AI Learning Platform (2025)
+Live: https://nexus-ai-edu.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/NEXUS-AI-EDU
+An AI-powered educational platform delivering personalised learning experiences —
+intelligent tutoring, adaptive content delivery, and real-time AI-assisted study support.
+Stack: Node.js, Express, JavaScript, AI, LLM, HTML5, CSS3, REST API
+
+ContentGen AI — Groq (2025)
+Live: https://contentgen-ai-groq-1.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/contentgen-ai-groq
+AI-powered content generation platform using Groq's ultra-fast LLM inference API.
+Generates polished blog posts, marketing copy, and technical content on demand.
+Stack: JavaScript, Node.js, Groq API, LLM, HTML5, CSS3
+
+AI ChatBot (2025)
+Live: https://ch-at-bo-t.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/AIChatBot
+Full-stack conversational AI chatbot with multi-turn conversations, context retention,
+and dynamic AI responses via an integrated LLM backend.
+Stack: JavaScript, Node.js, Express, REST API, AI, HTML5, CSS3
+
+Dev Portfolio (2025)
+Live: https://portfolio-xzh2.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/Portfolio
+Full-stack personal portfolio with Node.js/Express backend, MySQL database, contact API,
+blog system, and animated cyberpunk-themed frontend.
+Stack: Node.js, Express, MySQL, JavaScript, HTML5, CSS3, JWT
+
+LuminaSenAna — Sentiment Analyser (2025)
+Live: https://luminasenana.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/LuminaSenAna
+NLP-powered sentiment analysis tool that classifies text as positive, negative, or
+neutral with confidence scoring. Includes batch processing and a results dashboard.
+Stack: JavaScript, Node.js, NLP, AI, REST API, HTML5, CSS3
+
+Chatbot — Lightweight Assistant (2025)
+GitHub: github.com/MurunwaMudzhadzhi/chatbot
+Lightweight chatbot demonstrating core conversational AI design patterns — intent
+detection, response templating, and fallback handling.
+Stack: JavaScript, NLP, AI, HTML5, CSS3
+
+EDUCATION
+
+Diploma in Information & Communication Technology — IIE Rosebank College
+2022 – 2024 | Specialisation: Software Development | Certified: December 2024
+Distinctions: Databases, Programming, Project Management (and more)
+
+National Senior Certificate — Cullinan Secondary School | Matriculated 2020
+Subjects: English, Afrikaans, Maths Literacy, Computer Applications Technology,
+Business Studies, Tourism, Life Orientation
+
+Continuous Learning — 2024–Present
+Self-directed study in AI/LLM integration, Node.js, REST API design, and modern
+JavaScript patterns through hands-on project development.
+
+CERTIFICATIONS
+- Python for Data Science, AI & Development
+- Generative AI: Prompt Engineering Basics
+- Artificial Intelligence Essentials V2
+- Write Professional Emails in English
+- Work Smarter, Not Harder: Time Management for Personal & Professional Productivity
+
+CORE COMPETENCIES
+Problem-Solving | Agile/Scrum | API Integration | Technical Documentation
+Team Collaboration | Analytical Thinking | Adaptability | Fast Learner
+AI Prompt Engineering | LLM Application Design | Clean Code Practices | Self-Directed Learning
+
+REFERENCES
+
+CAPACITI
+Kefiloe Mphye    — Kefiloe.mphye@capaciti.org.za
+Oarabile Mogase  — Oarabile.mogase@capaciti.org.za
+Sakhile Mazibuko — Sakhile.mazibuko@capaciti.org.za
+
+Cullinan Secondary School
+Lesego Siku    — 012 111 7636
+Thoko Makinita — 082 079 0469
 
 AVAILABILITY
-Immediately available. Open to remote, hybrid, and on-site positions in Gauteng.`;
+Immediately available. Open to remote, hybrid, and on-site positions in South Africa, and internationally.
+Open to internships, graduate programmes, and junior developer roles.`;
 
 function downloadTxt(){const blob=new Blob([CV_TEXT],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Murunwa_Mudzhadzhi_CV.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
-function downloadWord(){const w='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"/><style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;margin:2cm;}h1{font-size:18pt;font-weight:bold;}h2{font-size:13pt;border-bottom:1pt solid #000;margin-top:14pt;}h3{font-size:11pt;font-weight:bold;margin-top:8pt;}p{margin:3pt 0;}ul{margin:4pt 0 4pt 18pt;}li{font-size:11pt;line-height:1.5;}</style></head><body><h1>MURUNWA MUDZHADZHI</h1><p>Software Developer | Gauteng, South Africa</p><p>073 995 2234 | m.murunwa777@gmail.com | github.com/MurunwaMudzhadzhi</p><h2>PROFESSIONAL SUMMARY</h2><p>Motivated Software Developer with hands-on experience across desktop, web, mobile, and AI platforms. Distinction-holder in Databases, Programming, and Project Management from IIE Rosebank College.</p><h2>EDUCATION</h2><h3>Diploma in Information &amp; Communication Technology — IIE Rosebank College, 2022-2024</h3><p>Specialisation: Software Development | Certified: December 2024 | Distinctions: Databases, Programming, Project Management</p><h3>National Senior Certificate — Cullinan Secondary School, 2020</h3><h2>TECHNICAL SKILLS</h2><p><b>Languages:</b> Java, Kotlin, JavaScript, TypeScript, C#, ASP.NET<br/><b>Web &amp; AI:</b> Node.js, Express, REST APIs, Groq API, LLM Integration, NLP<br/><b>Databases:</b> MySQL, Firebase, MongoDB, Oracle, MS SQL<br/><b>Tools:</b> Git, GitHub, VS Code, Android Studio, Docker</p><h2>PROJECTS</h2><h3>ContentGen AI (2025)</h3><p>AI content generation platform using Groq LLM API.</p><h3>AI ChatBot (2025)</h3><p>Full-stack conversational AI with multi-turn context retention.</p><h3>Dev Portfolio (2025)</h3><p>Full-stack portfolio with Node.js backend and MySQL database.</p><h3>LuminaSenAna (2025)</h3><p>NLP sentiment analysis tool with confidence scoring.</p><h2>AVAILABILITY</h2><p>Immediately available. Open to remote, hybrid, and on-site roles in Gauteng.</p></body></html>';const blob=new Blob(['\ufeff',w],{type:'application/msword'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Murunwa_Mudzhadzhi_CV.doc';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
+function downloadWord(){const w='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"/><style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;margin:2.5cm 2cm;}h1{font-size:20pt;font-weight:bold;margin-bottom:2pt;}h2{font-size:12pt;font-weight:bold;border-bottom:1pt solid #000;margin-top:16pt;margin-bottom:6pt;text-transform:uppercase;letter-spacing:.05em;}h3{font-size:11pt;font-weight:bold;margin-top:10pt;margin-bottom:2pt;}p{margin:2pt 0;line-height:1.4;}ul{margin:4pt 0 4pt 16pt;}li{font-size:11pt;line-height:1.5;margin-bottom:2pt;}.sub{font-size:10pt;color:#444;}.contact{font-size:10pt;}</style></head><body>'
++'<h1>MURUNWA MUDZHADZHI</h1>'
++'<p class="sub">Software Developer &amp; AI Engineer &nbsp;|&nbsp; Pretoria, Gauteng, South Africa</p>'
++'<p class="contact">073 995 2234 &nbsp;|&nbsp; 065 871 8301 &nbsp;|&nbsp; m.murunwa777@gmail.com</p>'
++'<p class="contact">github.com/MurunwaMudzhadzhi &nbsp;|&nbsp; linkedin.com/in/murunwa-mudzhadzhi-270197251</p>'
++'<h2>Professional Summary</h2>'
++'<p>Full-stack software developer specialising in desktop, web, mobile, and AI-powered applications. Distinction-holder in Databases, Programming, and Project Management from IIE Rosebank College. Passionate about building clean, scalable, and user-centred systems. Actively seeking opportunities to contribute to forward-thinking teams and deliver impactful software solutions.</p>'
++'<h2>Work Experience</h2>'
++'<h3>End-to-End Technology Practitioner &mdash; CAPACITI</h3>'
++'<p class="sub">April 2026 &ndash; Present &nbsp;|&nbsp; Braamfontein, Johannesburg</p>'
++'<ul>'
++'<li>Participating in an intensive industry-focused programme covering full-stack development, AI integration, cloud technologies, and professional workplace readiness.</li>'
++'<li>Designing, developing, testing, and deploying modern web applications and AI-powered systems using agile methodologies.</li>'
++'<li>Built and contributed to real-world projects including AI chatbots, content generation platforms, sentiment analysis systems, and responsive full-stack applications.</li>'
++'<li>Developed frontend interfaces using HTML, CSS, and JavaScript with modern UI/UX practices to create accessible, user-friendly digital experiences.</li>'
++'<li>Worked on backend logic, API integration, and system optimisation to improve performance, scalability, and usability.</li>'
++'<li>Applied Git/GitHub version control, debugging, and collaborative coding practices within team-based development environments.</li>'
++'<li>Gained practical exposure to deployment workflows, technical presentations, and solving real-world business challenges through technology.</li>'
++'</ul>'
++'<h3>Teacher Assistant &mdash; Cullinan Secondary School</h3>'
++'<p class="sub">June 2025 &ndash; November 2025 &nbsp;|&nbsp; Cullinan, South Africa</p>'
++'<ul>'
++'<li>Assisted educators with classroom management, lesson preparation, and structured learning activity delivery across multiple subjects.</li>'
++'<li>Provided one-on-one academic support and tutoring to improve learner understanding, engagement, and performance.</li>'
++'<li>Supported administrative duties including report preparation, coordination of school events, and maintaining learner records.</li>'
++'<li>Helped create a positive, inclusive learning environment that encouraged learner participation and academic growth.</li>'
++'<li>Strengthened communication, leadership, teamwork, and problem-solving skills in a fast-paced educational setting.</li>'
++'</ul>'
++'<h2>Projects</h2>'
++'<h3>NEXUS AI EDU &mdash; AI Learning Platform (2025)</h3>'
++'<p>Live: https://nexus-ai-edu.onrender.com &nbsp;|&nbsp; GitHub: github.com/MurunwaMudzhadzhi/NEXUS-AI-EDU</p>'
++'<p>AI-powered educational platform with intelligent tutoring, adaptive content delivery, and real-time AI-assisted study support. Stack: Node.js, Express, JavaScript, AI, LLM, HTML5, CSS3, REST API</p>'
++'<h3>ContentGen AI &mdash; Groq (2025)</h3>'
++'<p>Live: https://contentgen-ai-groq-1.onrender.com &nbsp;|&nbsp; GitHub: github.com/MurunwaMudzhadzhi/contentgen-ai-groq</p>'
++'<p>AI content generation platform using Groq&apos;s ultra-fast LLM inference API. Stack: JavaScript, Node.js, Groq API, LLM, HTML5, CSS3</p>'
++'<h3>AI ChatBot (2025)</h3>'
++'<p>Live: https://ch-at-bo-t.onrender.com &nbsp;|&nbsp; GitHub: github.com/MurunwaMudzhadzhi/AIChatBot</p>'
++'<p>Full-stack conversational AI with multi-turn context retention and streaming responses. Stack: JavaScript, Node.js, Express, REST API, AI, HTML5, CSS3</p>'
++'<h3>Dev Portfolio (2025)</h3>'
++'<p>Live: https://portfolio-xzh2.onrender.com &nbsp;|&nbsp; GitHub: github.com/MurunwaMudzhadzhi/Portfolio</p>'
++'<p>Full-stack portfolio with Node.js/Express backend, MySQL database, blog system, and animated cyberpunk frontend. Stack: Node.js, Express, MySQL, JavaScript, HTML5, CSS3, JWT</p>'
++'<h3>LuminaSenAna &mdash; Sentiment Analyser (2025)</h3>'
++'<p>Live: https://luminasenana.onrender.com &nbsp;|&nbsp; GitHub: github.com/MurunwaMudzhadzhi/LuminaSenAna</p>'
++'<p>NLP sentiment analysis tool with confidence scoring and batch processing. Stack: JavaScript, Node.js, NLP, AI, REST API</p>'
++'<h3>Chatbot &mdash; Lightweight Assistant (2025)</h3>'
++'<p>GitHub: github.com/MurunwaMudzhadzhi/chatbot</p>'
++'<p>Lightweight chatbot demonstrating intent detection, response templating, and fallback handling. Stack: JavaScript, NLP, AI, HTML5, CSS3</p>'
++'<h2>Education</h2>'
++'<h3>Diploma in Information &amp; Communication Technology &mdash; IIE Rosebank College, 2022&ndash;2024</h3>'
++'<p>Specialisation: Software Development &nbsp;|&nbsp; Certified: December 2024</p>'
++'<p>Distinctions: Databases, Programming, Project Management (and more)</p>'
++'<h3>National Senior Certificate &mdash; Cullinan Secondary School, 2020</h3>'
++'<p>Subjects: English, Afrikaans, Maths Literacy, Computer Applications Technology, Business Studies, Tourism, Life Orientation</p>'
++'<h2>Certifications</h2>'
++'<ul>'
++'<li>Python for Data Science, AI &amp; Development</li>'
++'<li>Generative AI: Prompt Engineering Basics</li>'
++'<li>Artificial Intelligence Essentials V2</li>'
++'<li>Write Professional Emails in English</li>'
++'<li>Work Smarter, Not Harder: Time Management for Personal &amp; Professional Productivity</li>'
++'</ul>'
++'<h2>Technical Skills</h2>'
++'<p><b>Languages:</b> Java, Kotlin, JavaScript, TypeScript, C#, ASP.NET, Python</p>'
++'<p><b>Web &amp; AI:</b> HTML5, CSS3, REST APIs, Node.js, Express.js, Groq API, LLM Integration, NLP</p>'
++'<p><b>Databases:</b> MySQL, Firebase, Firestore, MongoDB, Oracle, MS SQL, Azure SQL</p>'
++'<p><b>Mobile:</b> Android SDK, Kotlin, Material Design</p>'
++'<p><b>Tools:</b> Git, GitHub, VS Code, Visual Studio, Android Studio, NetBeans, Docker</p>'
++'<p><b>Practices:</b> Agile/Scrum, OOP, MVC, SDLC, Software Testing, QA, Prompt Engineering</p>'
++'<h2>Core Competencies</h2>'
++'<p>Problem-Solving &nbsp;&middot;&nbsp; Agile/Scrum &nbsp;&middot;&nbsp; API Integration &nbsp;&middot;&nbsp; Technical Documentation &nbsp;&middot;&nbsp; Team Collaboration &nbsp;&middot;&nbsp; Analytical Thinking &nbsp;&middot;&nbsp; Adaptability &nbsp;&middot;&nbsp; Fast Learner &nbsp;&middot;&nbsp; AI Prompt Engineering &nbsp;&middot;&nbsp; LLM Application Design &nbsp;&middot;&nbsp; Clean Code Practices &nbsp;&middot;&nbsp; Self-Directed Learning</p>'
++'<h2>References</h2>'
++'<h3>CAPACITI</h3>'
++'<p>Kefiloe Mphye &mdash; Kefiloe.mphye@capaciti.org.za</p>'
++'<p>Oarabile Mogase &mdash; Oarabile.mogase@capaciti.org.za</p>'
++'<p>Sakhile Mazibuko &mdash; Sakhile.mazibuko@capaciti.org.za</p>'
++'<h3>Cullinan Secondary School</h3>'
++'<p>Lesego Siku &mdash; 012 111 7636</p>'
++'<p>Thoko Makinita &mdash; 082 079 0469</p>'
++'</body></html>';const blob=new Blob(['\uFEFF',w],{type:'application/msword'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Murunwa_Mudzhadzhi_CV.doc';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
 
 function openCVModal(){document.getElementById('cv-modal').classList.add('open');document.body.style.overflow='hidden';}
 function closeCVModal(){document.getElementById('cv-modal').classList.remove('open');document.body.style.overflow='';}
@@ -1142,4 +1375,4 @@ document.getElementById('cf').addEventListener('submit',async e=>{
 });
 </script>
 </body>
-</html>
+</html> 
