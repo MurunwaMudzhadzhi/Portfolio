@@ -474,7 +474,7 @@ footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
 
 <!-- STATS BAR -->
 <div class="stats-bar" aria-label="Quick stats">
-  <div class="stat-cell reveal"><div class="stat-num">05</div><div class="stat-lbl">Projects Built</div></div>
+  <div class="stat-cell reveal"><div class="stat-num">07</div><div class="stat-lbl">Projects Built</div></div>
   <div class="stat-cell reveal"><div class="stat-num">3+</div><div class="stat-lbl">AI Projects</div></div>
   <div class="stat-cell reveal"><div class="stat-num">3&#215;</div><div class="stat-lbl">Distinctions</div></div>
   <div class="stat-cell reveal"><div class="stat-num">&#8734;</div><div class="stat-lbl">Problems Solved</div></div>
@@ -567,7 +567,9 @@ footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
       </div>
     </div>
 
-    <div class="proj-item reveal" tabindex="0" role="button" aria-label="Project: NEXUS AI EDU — press Enter to view details" data-proj="5">
+  
+
+        <div class="proj-item reveal" tabindex="0" role="button" aria-label="Project: NEXUS AI EDU — press Enter to view details" data-proj="5">
       <div class="proj-bar"></div>
       <div class="proj-inner">
         <div class="proj-num" aria-hidden="true">06</div>
@@ -579,6 +581,20 @@ footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
         <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">AI</span><span class="ptag">EdTech</span></div>
       </div>
     </div>
+
+    <div class="proj-item reveal" tabindex="0" role="button" aria-label="Project: TicketIQ Enterprise — press Enter to view details" data-proj="6">
+      <div class="proj-bar"></div>
+      <div class="proj-inner">
+        <div class="proj-num" aria-hidden="true">07</div>
+        <div>
+          <h3 class="proj-name">TicketIQ Enterprise &mdash; AI Support Platform</h3>
+          <p class="proj-desc">An AI-powered enterprise ticketing system built as a group project. Features role-based dashboards for employees, agents, and admins, with Groq LLM-powered ticket routing and smart auto-replies.</p>
+          <p class="proj-hint">&#8599; Press Enter or click to view details</p>
+        </div>
+        <div class="proj-tags"><span class="ptag">React</span><span class="ptag">FastAPI</span><span class="ptag">PostgreSQL</span><span class="ptag">Groq AI</span><span class="ptag">Group Project</span></div>
+      </div>
+    </div>
+    
   </div>
 </div>
 
@@ -1080,7 +1096,8 @@ const PROJECTS=[
   {ew:'PROJECT_03 // WEB // FULL-STACK',ti:'Dev Portfolio',gh:'https://github.com/MurunwaMudzhadzhi/Portfolio',demo:'https://portfolio-xzh2.onrender.com',body:'<p>This portfolio \u2014 a full-stack personal site with a Node.js/Express backend, database integration, contact API, blog system, and an animated cyberpunk-themed frontend.</p><h4>Architecture</h4><ul><li>Node.js + Express backend with modular routes</li><li>MySQL database for projects and blog content</li><li>JWT-secured admin endpoints</li><li>Rate limiting middleware</li><li>Animated HTML/CSS/JS frontend with full dark/light mode</li></ul><h4>Frontend Highlights</h4><p>Canvas-based particle network, roaming SVG robot, glitch typography, scroll-reveal animations, and full keyboard accessibility \u2014 all in vanilla HTML/CSS/JS.</p>',stack:['Node.js','Express','MySQL','JavaScript','HTML5','CSS3','JWT']},
   {ew:'PROJECT_04 // AI // NLP',ti:'LuminaSenAna \u2014 Sentiment Analyser',gh:'https://github.com/MurunwaMudzhadzhi/LuminaSenAna',demo:'https://luminasenana.onrender.com',body:'<p>An NLP-powered sentiment analysis tool that classifies text as positive, negative, or neutral with a confidence score.</p><h4>Key Features</h4><ul><li>Text classification: positive / negative / neutral</li><li>Confidence scoring for each classification</li><li>Batch processing for multiple inputs</li><li>Clean API endpoint for integration into other systems</li><li>Visual results dashboard</li></ul><h4>Applications</h4><p>Built to automate the triage of customer reviews \u2014 surfacing negative feedback for urgent review while batching positive responses.</p>',stack:['JavaScript','Node.js','NLP','AI','REST API','HTML5','CSS3']},
   {ew:'PROJECT_05 // AI // CHATBOT',ti:'Chatbot \u2014 Lightweight Assistant',gh:'https://github.com/MurunwaMudzhadzhi/chatbot',demo:null,body:'<p>A focused, lightweight chatbot demonstrating core conversational AI design patterns. Built to understand the fundamentals before scaling up to more complex systems.</p><h4>Key Features</h4><ul><li>Intent detection with rule-based and ML classification</li><li>Response templating with dynamic variable substitution</li><li>Fallback handling for unrecognised inputs</li><li>Minimal, clean web interface</li><li>Modular design for easy intent extension</li></ul><h4>Purpose</h4><p>A deliberate learning project \u2014 building a chatbot from first principles. Understanding intent classification at this level made me a significantly better AI application developer.</p>',stack:['JavaScript','NLP','AI','HTML5','CSS3']},
-  {ew:'PROJECT_06 // AI // EDTECH',ti:'NEXUS AI EDU \u2014 AI Learning Platform',gh:'https://github.com/MurunwaMudzhadzhi/NEXUS-AI-EDU',demo:'https://nexus-ai-edu.onrender.com',body:'<p>An AI-powered educational platform that transforms how students learn and study. NEXUS AI EDU combines intelligent tutoring, adaptive content delivery, and real-time AI assistance to create a personalised learning environment.</p><h4>Key Features</h4><ul><li>AI-powered tutoring with contextual explanations tailored to the learner</li><li>Adaptive content system that adjusts difficulty based on student progress</li><li>Real-time Q&amp;A powered by an integrated LLM backend</li><li>Clean, focused study interface designed for deep learning sessions</li><li>Progress tracking and session history</li></ul><h4>Impact</h4><p>Built to make quality AI-assisted education accessible. NEXUS AI EDU demonstrates how LLMs can be embedded meaningfully into learning workflows \u2014 not just as a chatbot, but as an intelligent study partner.</p>',stack:[' Node.js','Express','JavaScript','AI','LLM','HTML5','CSS3','REST API']}
+  {ew:'PROJECT_06 // AI // EDTECH',ti:'NEXUS AI EDU \u2014 AI Learning Platform',gh:'https://github.com/MurunwaMudzhadzhi/NEXUS-AI-EDU',demo:'https://nexus-ai-edu.onrender.com',body:'<p>An AI-powered educational platform that transforms how students learn and study. NEXUS AI EDU combines intelligent tutoring, adaptive content delivery, and real-time AI assistance to create a personalised learning environment.</p><h4>Key Features</h4><ul><li>AI-powered tutoring with contextual explanations tailored to the learner</li><li>Adaptive content system that adjusts difficulty based on student progress</li><li>Real-time Q&amp;A powered by an integrated LLM backend</li><li>Clean, focused study interface designed for deep learning sessions</li><li>Progress tracking and session history</li></ul><h4>Impact</h4><p>Built to make quality AI-assisted education accessible. NEXUS AI EDU demonstrates how LLMs can be embedded meaningfully into learning workflows \u2014 not just as a chatbot, but as an intelligent study partner.</p>',stack:[' Node.js','Express','JavaScript','AI','LLM','HTML5','CSS3','REST API']},
+  {ew:'PROJECT_07 // AI // FULL-STACK // GROUP',ti:'TicketIQ Enterprise \u2014 AI Support Platform',gh:'https://github.com/MurunwaMudzhadzhi/ticketIQ',demo:'https://ticketiq-t4ea.onrender.com',body:'<p>An AI-powered enterprise ticketing system built as a group project during the CAPACITI programme. TicketIQ features role-based access for employees, support agents, and admins, with Groq LLM-powered ticket classification and smart auto-reply generation.</p><h4>Key Features</h4><ul><li>Role-based dashboards: Employee, Agent (AI Intern, IT Support, Jr Ops), and Admin</li><li>AI-powered ticket routing — Groq LLM classifies tickets by department automatically</li><li>Smart AI reply suggestions for agents based on ticket context</li><li>Full ticket lifecycle management: create, assign, escalate, resolve</li><li>Analytics dashboard with KPI cards, ticket volume, and department breakdowns</li><li>JWT-secured authentication with refresh token support</li></ul><h4>Tech Stack</h4><p>React + TypeScript frontend with Vite, FastAPI Python backend, PostgreSQL database, SQLAlchemy async ORM, and Groq LLaMA 3 for AI features. Deployed on Render.</p><h4>My Contribution</h4><p>Contributed to the full-stack architecture, backend API design, AI integration with Groq, database modelling, and deployment pipeline on Render.</p>',stack:['React','TypeScript','FastAPI','Python','PostgreSQL','Groq AI','LLaMA 3','JWT','Render']}
 ];
 
 /* ══ BLOG DATA ══ */
