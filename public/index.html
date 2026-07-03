@@ -9,6 +9,7 @@
 <meta property="og:description" content="Software Developer building clean, functional systems across desktop, web, mobile, and AI."/>
 <title>Murunwa Mudzhadzhi // DEV_PORTFOLIO</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ══════════════ THEME TOKENS ══════════════ */
 :root,[data-theme="dark"]{
@@ -884,9 +885,9 @@ footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:w
     <h2 class="modal-title" id="cv-modal-title" style="margin-bottom:10px;">DOWNLOAD CV</h2>
     <p style="font-size:13px;color:var(--text);margin-bottom:32px;line-height:1.8;">Choose your preferred format. Both are ATS-compliant and ready to submit.</p>
     <div style="display:flex;flex-direction:column;gap:12px;">
-      <button id="cv-dl-txt" class="btn-cv" style="width:100%;justify-content:center;padding:16px 24px;font-size:12px;">
+      <button id="cv-dl-pdf" class="btn-cv" style="width:100%;justify-content:center;padding:16px 24px;font-size:12px;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        &nbsp;Download as PDF / Plain Text &nbsp;<span style="font-size:10px;opacity:.7;">(.txt)</span>
+        &nbsp;Download as PDF &nbsp;<span style="font-size:10px;opacity:.7;">(.pdf)</span>
       </button>
       <button id="cv-dl-word" style="width:100%;justify-content:center;padding:16px 24px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:rgba(0,102,255,.07);border:1px solid rgba(0,102,255,.35);color:#4da8da;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .25s;clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="8 13 10 19 12 13 14 19 16 13"/></svg>
@@ -1162,143 +1163,144 @@ document.querySelectorAll('.blog-card').forEach(el=>{
 });
 
 /* ══ CV DOWNLOAD ══ */
-const CV_TEXT=`MURUNWA MUDZHADZHI
-Software Developer & AI Engineer | Diploma in Information & Communication Technology
-Pretoria, Gauteng, South Africa
+function downloadPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'pt', format:'a4' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const marginL = 50, marginR = 50, marginTop = 50, marginBottom = 50;
+  const contentW = pageW - marginL - marginR;
+  let y = marginTop;
 
-CONTACT
-Phone: 073 995 2234 | 065 871 8301
-Email: m.murunwa777@gmail.com
-GitHub: github.com/MurunwaMudzhadzhi
-LinkedIn: linkedin.com/in/murunwa-mudzhadzhi-270197251
-Portfolio: https://portfolio-xzh2.onrender.com
+  const CYAN=[0,150,148], DARK=[20,25,30], GRAY=[95,105,115];
 
-PROFESSIONAL SUMMARY
-Full-stack software developer specialising in desktop, web, mobile, and AI-powered
-applications. Distinction-holder in Databases, Programming, and Project Management
-from IIE Rosebank College. Passionate about building clean, scalable, and user-centred
-systems. Actively seeking opportunities to contribute to forward-thinking teams and
-deliver impactful software solutions across web, mobile, desktop, and AI technologies.
+  function checkPage(h){ if(y+h > pageH-marginBottom){ doc.addPage(); y = marginTop; } }
 
-TECHNICAL SKILLS
-Languages:    Java, Kotlin, JavaScript, TypeScript, C#, ASP.NET, Python
-Web & AI:     HTML5, CSS3, REST APIs, Node.js, Express.js, Groq API, LLM Integration, NLP
-Databases:    MySQL, Firebase, Firestore, MongoDB, Oracle, MS SQL, Azure SQL
-Mobile:       Android SDK, Kotlin, Material Design, Geolocation API
-Tools & IDEs: VS Code, Visual Studio, Android Studio, NetBeans, Git, GitHub, Docker
-Practices:    Agile/Scrum, OOP, MVC, SDLC, Software Testing, QA, Prompt Engineering
+  function sectionHeader(title){
+    checkPage(30); y += 16;
+    doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...CYAN);
+    doc.text(title.toUpperCase(), marginL, y);
+    y += 4;
+    doc.setDrawColor(...CYAN); doc.setLineWidth(1);
+    doc.line(marginL, y, pageW-marginR, y);
+    y += 14; doc.setTextColor(...DARK);
+  }
 
-WORK EXPERIENCE
+  function para(text, o={}){
+    const fs = o.fontSize || 9.5;
+    doc.setFont('helvetica', o.bold ? 'bold' : 'normal');
+    doc.setFontSize(fs); doc.setTextColor(...(o.color || DARK));
+    const lines = doc.splitTextToSize(text, contentW);
+    checkPage(lines.length*(fs*1.35));
+    lines.forEach(l=>{ doc.text(l, marginL, y); y += fs*1.35; });
+  }
 
-End-to-End Technology Practitioner — CAPACITI
-April 2026 – Present | Braamfontein, Johannesburg
-- Participating in an intensive industry-focused programme covering full-stack
-  development, AI integration, cloud technologies, and professional workplace readiness.
-- Designing, developing, testing, and deploying modern web applications and AI-powered
-  systems using agile development methodologies.
-- Built and contributed to real-world projects including AI chatbots, content generation
-  platforms, sentiment analysis systems, and responsive full-stack applications.
-- Developed frontend interfaces using HTML, CSS, JavaScript, and modern UI/UX practices
-  to create accessible, user-friendly digital experiences.
-- Worked on backend logic, API integration, and system optimisation to improve
-  performance, scalability, and usability across projects.
-- Applied Git/GitHub version control, debugging, and collaborative coding practices
-  within team-based development environments.
-- Gained practical exposure to deployment workflows, technical presentations, and
-  solving real-world business challenges through technology.
+  function bullet(text){
+    const fs = 9.5;
+    doc.setFont('helvetica','normal'); doc.setFontSize(fs);
+    const lines = doc.splitTextToSize(text, contentW-14);
+    checkPage(lines.length*(fs*1.35));
+    doc.setTextColor(...CYAN); doc.text('\u203a', marginL, y);
+    doc.setTextColor(...DARK);
+    lines.forEach(l=>{ doc.text(l, marginL+14, y); y += fs*1.35; });
+  }
 
-Teacher Assistant — Cullinan Secondary School
-June 2025 – November 2025 | Cullinan, South Africa
-- Assisted educators with classroom management, lesson preparation, and delivery of
-  structured learning activities across multiple subjects.
-- Provided one-on-one academic support and tutoring to improve learner understanding,
-  engagement, and performance.
-- Supported administrative duties including report preparation, coordination of school
-  events, and maintaining learner records.
-- Helped create a positive, inclusive learning environment that encouraged learner
-  participation and academic growth.
-- Strengthened communication, leadership, teamwork, and problem-solving skills.
+  // HEADER
+  doc.setFont('helvetica','bold'); doc.setFontSize(24); doc.setTextColor(...DARK);
+  doc.text('MURUNWA MUDZHADZHI', marginL, y); y += 20;
+  doc.setFont('helvetica','normal'); doc.setFontSize(12); doc.setTextColor(...CYAN);
+  doc.text('Software Developer & AI Engineer', marginL, y); y += 16;
+  doc.setFontSize(9); doc.setTextColor(...GRAY);
+  doc.text('Pretoria, Gauteng, South Africa  |  073 995 2234  |  m.murunwa777@gmail.com', marginL, y); y += 12;
+  doc.text('github.com/MurunwaMudzhadzhi  |  linkedin.com/in/murunwa-mudzhadzhi-270197251', marginL, y); y += 10;
+  doc.setDrawColor(...CYAN); doc.setLineWidth(1.5);
+  doc.line(marginL, y, pageW-marginR, y); y += 10;
 
-PROJECTS
+  sectionHeader('Professional Summary');
+  para('Full-stack software developer specialising in desktop, web, mobile, and AI-powered applications. Distinction-holder in Databases, Programming, and Project Management from IIE Rosebank College. Passionate about building clean, scalable, and user-centred systems. Actively seeking opportunities to contribute to forward-thinking teams and deliver impactful software solutions across web, mobile, desktop, and AI technologies.');
 
-NEXUS AI EDU — AI Learning Platform (2025)
-Live: https://nexus-ai-edu.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/NEXUS-AI-EDU
-An AI-powered educational platform delivering personalised learning experiences —
-intelligent tutoring, adaptive content delivery, and real-time AI-assisted study support.
-Stack: Node.js, Express, JavaScript, AI, LLM, HTML5, CSS3, REST API
+  sectionHeader('Technical Skills');
+  para('Languages: Java, Kotlin, JavaScript, TypeScript, C#, ASP.NET, Python');
+  para('Web & AI: HTML5, CSS3, REST APIs, Node.js, Express.js, Groq API, LLM Integration, NLP');
+  para('Databases: MySQL, Firebase, Firestore, MongoDB, Oracle, MS SQL, Azure SQL');
+  para('Mobile: Android SDK, Kotlin, Material Design, Geolocation API');
+  para('Tools & IDEs: VS Code, Visual Studio, Android Studio, NetBeans, Git, GitHub, Docker');
+  para('Practices: Agile/Scrum, OOP, MVC, SDLC, Software Testing, QA, Prompt Engineering');
 
-ContentGen AI — Groq (2025)
-Live: https://contentgen-ai-groq-1.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/contentgen-ai-groq
-AI-powered content generation platform using Groq's ultra-fast LLM inference API.
-Generates polished blog posts, marketing copy, and technical content on demand.
-Stack: JavaScript, Node.js, Groq API, LLM, HTML5, CSS3
+  sectionHeader('Work Experience');
+  para('End-to-End Technology Practitioner \u2014 CAPACITI', {bold:true, fontSize:10.5});
+  para('April 2026 \u2013 Present  |  Braamfontein, Johannesburg', {color:GRAY, fontSize:9});
+  y += 2;
+  [
+    'Participating in an intensive industry-focused programme covering full-stack development, AI integration, cloud technologies, and professional workplace readiness.',
+    'Designing, developing, testing, and deploying modern web applications and AI-powered systems using agile methodologies.',
+    'Built and contributed to real-world projects including AI chatbots, content generation platforms, sentiment analysis systems, and responsive full-stack applications.',
+    'Developed frontend interfaces using HTML, CSS, JavaScript, and modern UI/UX practices to create accessible, user-friendly digital experiences.',
+    'Worked on backend logic, API integration, and system optimisation to improve performance, scalability, and usability.',
+    'Applied Git/GitHub version control, debugging, and collaborative coding practices within team-based development environments.',
+    'Gained practical exposure to deployment workflows, technical presentations, and solving real-world business challenges through technology.'
+  ].forEach(bullet);
+  y += 10;
 
-AI ChatBot (2025)
-Live: https://ch-at-bo-t.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/AIChatBot
-Full-stack conversational AI chatbot with multi-turn conversations, context retention,
-and dynamic AI responses via an integrated LLM backend.
-Stack: JavaScript, Node.js, Express, REST API, AI, HTML5, CSS3
+  para('Teacher Assistant \u2014 Cullinan Secondary School', {bold:true, fontSize:10.5});
+  para('June 2025 \u2013 November 2025  |  Cullinan, South Africa', {color:GRAY, fontSize:9});
+  y += 2;
+  [
+    'Assisted educators with classroom management, lesson preparation, and delivery of structured learning activities across multiple subjects.',
+    'Provided one-on-one academic support and tutoring to improve learner understanding, engagement, and performance.',
+    'Supported administrative duties including report preparation, coordination of school events, and maintaining learner records.',
+    'Helped create a positive, inclusive learning environment that encouraged learner participation and academic growth.',
+    'Strengthened communication, leadership, teamwork, and problem-solving skills.'
+  ].forEach(bullet);
 
-Dev Portfolio (2025)
-Live: https://portfolio-xzh2.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/Portfolio
-Full-stack personal portfolio with Node.js/Express backend, MySQL database, contact API,
-blog system, and animated cyberpunk-themed frontend.
-Stack: Node.js, Express, MySQL, JavaScript, HTML5, CSS3, JWT
+  sectionHeader('Projects');
+  [
+    {n:'NEXUS AI EDU \u2014 AI Learning Platform', l:'nexus-ai-edu.onrender.com', d:'AI-powered educational platform delivering personalised learning \u2014 intelligent tutoring, adaptive content, real-time AI-assisted study support.', s:'Node.js, Express, JavaScript, AI, LLM'},
+    {n:'ContentGen AI \u2014 Groq', l:'contentgen-ai-groq-1.onrender.com', d:"AI content generation platform using Groq's ultra-fast LLM inference API.", s:'JavaScript, Node.js, Groq API, LLM'},
+    {n:'AI ChatBot', l:'ch-at-bo-t.onrender.com', d:'Full-stack conversational AI with multi-turn context retention and streaming responses.', s:'JavaScript, Node.js, Express, REST API'},
+    {n:'Dev Portfolio', l:'portfolio-xzh2.onrender.com', d:'Full-stack personal portfolio with Node.js/Express backend, MySQL, blog system, animated frontend.', s:'Node.js, Express, MySQL, JWT'},
+    {n:'LuminaSenAna \u2014 Sentiment Analyser', l:'luminasenana.onrender.com', d:'NLP sentiment analysis tool with confidence scoring and batch processing.', s:'JavaScript, Node.js, NLP, AI'},
+    {n:'Chatbot \u2014 Lightweight Assistant', l:'github.com/MurunwaMudzhadzhi/chatbot', d:'Lightweight chatbot demonstrating intent detection, response templating, fallback handling.', s:'JavaScript, NLP, AI'},
+    {n:'TicketIQ Enterprise \u2014 AI Support Platform', l:'ticketiq-frontend-l7r1.onrender.com', d:'AI-powered enterprise ticketing system (group project) with role-based dashboards and Groq LLM ticket routing.', s:'React, TypeScript, FastAPI, PostgreSQL, Groq AI'},
+    {n:'Vhumatshelo Dev \u2014 E-Commerce Platform', l:'vhumatshelo-dev.onrender.com', d:'Full-stack e-commerce site with product listings, cart/checkout, and PayFast integration.', s:'Node.js, Express, NeDB, PayFast'}
+  ].forEach(p=>{
+    para(p.n, {bold:true, fontSize:10.5});
+    para(p.l, {color:CYAN, fontSize:8.5});
+    para(p.d, {fontSize:9});
+    para('Stack: '+p.s, {color:GRAY, fontSize:8.5});
+    y += 6;
+  });
 
-LuminaSenAna — Sentiment Analyser (2025)
-Live: https://luminasenana.onrender.com | GitHub: github.com/MurunwaMudzhadzhi/LuminaSenAna
-NLP-powered sentiment analysis tool that classifies text as positive, negative, or
-neutral with confidence scoring. Includes batch processing and a results dashboard.
-Stack: JavaScript, Node.js, NLP, AI, REST API, HTML5, CSS3
+  sectionHeader('Education');
+  para('Diploma in Information & Communication Technology \u2014 IIE Rosebank College', {bold:true, fontSize:10.5});
+  para('2022 \u2013 2024  |  Specialisation: Software Development  |  Certified: December 2024', {color:GRAY, fontSize:9});
+  para('Distinctions: Databases, Programming, Project Management (and more)', {fontSize:9});
+  y += 8;
+  para('National Senior Certificate \u2014 Cullinan Secondary School', {bold:true, fontSize:10.5});
+  para('Matriculated 2020', {color:GRAY, fontSize:9});
+  para('Subjects: English, Afrikaans, Maths Literacy, Computer Applications Technology, Business Studies, Tourism, Life Orientation', {fontSize:9});
 
-Chatbot — Lightweight Assistant (2025)
-GitHub: github.com/MurunwaMudzhadzhi/chatbot
-Lightweight chatbot demonstrating core conversational AI design patterns — intent
-detection, response templating, and fallback handling.
-Stack: JavaScript, NLP, AI, HTML5, CSS3
+  sectionHeader('Certifications');
+  [
+    'Python for Data Science, AI & Development',
+    'Generative AI: Prompt Engineering Basics',
+    'Artificial Intelligence Essentials V2',
+    'Write Professional Emails in English',
+    'Work Smarter, Not Harder: Time Management for Personal & Professional Productivity'
+  ].forEach(bullet);
 
-EDUCATION
+  sectionHeader('Core Competencies');
+  para('Problem-Solving \u00b7 Agile/Scrum \u00b7 API Integration \u00b7 Technical Documentation \u00b7 Team Collaboration \u00b7 Analytical Thinking \u00b7 Adaptability \u00b7 Fast Learner \u00b7 AI Prompt Engineering \u00b7 LLM Application Design \u00b7 Clean Code Practices \u00b7 Self-Directed Learning');
 
-Diploma in Information & Communication Technology — IIE Rosebank College
-2022 – 2024 | Specialisation: Software Development | Certified: December 2024
-Distinctions: Databases, Programming, Project Management (and more)
+  sectionHeader('References');
+  para('Kefiloe Mphye \u2014 CAPACITI \u2014 Kefiloe.mphye@capaciti.org.za', {fontSize:9});
+  para('Oarabile Mogase \u2014 CAPACITI \u2014 Oarabile.mogase@capaciti.org.za', {fontSize:9});
+  para('Sakhile Mazibuko \u2014 CAPACITI \u2014 Sakhile.mazibuko@capaciti.org.za', {fontSize:9});
+  para('Lesego Siku \u2014 Cullinan Secondary School \u2014 012 111 7636', {fontSize:9});
+  para('Thoko Makinita \u2014 Cullinan Secondary School \u2014 082 079 0469', {fontSize:9});
 
-National Senior Certificate — Cullinan Secondary School | Matriculated 2020
-Subjects: English, Afrikaans, Maths Literacy, Computer Applications Technology,
-Business Studies, Tourism, Life Orientation
-
-Continuous Learning — 2024–Present
-Self-directed study in AI/LLM integration, Node.js, REST API design, and modern
-JavaScript patterns through hands-on project development.
-
-CERTIFICATIONS
-- Python for Data Science, AI & Development
-- Generative AI: Prompt Engineering Basics
-- Artificial Intelligence Essentials V2
-- Write Professional Emails in English
-- Work Smarter, Not Harder: Time Management for Personal & Professional Productivity
-
-CORE COMPETENCIES
-Problem-Solving | Agile/Scrum | API Integration | Technical Documentation
-Team Collaboration | Analytical Thinking | Adaptability | Fast Learner
-AI Prompt Engineering | LLM Application Design | Clean Code Practices | Self-Directed Learning
-
-REFERENCES
-
-CAPACITI
-Kefiloe Mphye    — Kefiloe.mphye@capaciti.org.za
-Oarabile Mogase  — Oarabile.mogase@capaciti.org.za
-Sakhile Mazibuko — Sakhile.mazibuko@capaciti.org.za
-
-Cullinan Secondary School
-Lesego Siku    — 012 111 7636
-Thoko Makinita — 082 079 0469
-
-AVAILABILITY
-Immediately available. Open to remote, hybrid, and on-site positions in South Africa, and internationally.
-Open to internships, graduate programmes, and junior developer roles.`;
-
-function downloadTxt(){const blob=new Blob([CV_TEXT],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Murunwa_Mudzhadzhi_CV.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
+  doc.save('Murunwa_Mudzhadzhi_CV.pdf');
+}
 function downloadWord(){const w='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"/><style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;margin:2.5cm 2cm;}h1{font-size:20pt;font-weight:bold;margin-bottom:2pt;}h2{font-size:12pt;font-weight:bold;border-bottom:1pt solid #000;margin-top:16pt;margin-bottom:6pt;text-transform:uppercase;letter-spacing:.05em;}h3{font-size:11pt;font-weight:bold;margin-top:10pt;margin-bottom:2pt;}p{margin:2pt 0;line-height:1.4;}ul{margin:4pt 0 4pt 16pt;}li{font-size:11pt;line-height:1.5;margin-bottom:2pt;}.sub{font-size:10pt;color:#444;}.contact{font-size:10pt;}</style></head><body>'
 +'<h1>MURUNWA MUDZHADZHI</h1>'
 +'<p class="sub">Software Developer &amp; AI Engineer &nbsp;|&nbsp; Pretoria, Gauteng, South Africa</p>'
@@ -1383,7 +1385,7 @@ function openCVModal(){document.getElementById('cv-modal').classList.add('open')
 function closeCVModal(){document.getElementById('cv-modal').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('cv-modal-close').addEventListener('click',closeCVModal);
 document.getElementById('cv-modal').addEventListener('click',e=>{if(e.target===document.getElementById('cv-modal'))closeCVModal();});
-document.getElementById('cv-dl-txt').addEventListener('click',()=>{downloadTxt();closeCVModal();});
+document.getElementById('cv-dl-pdf').addEventListener('click',()=>{downloadPDF();closeCVModal();});
 document.getElementById('cv-dl-word').addEventListener('click',()=>{downloadWord();closeCVModal();});
 document.getElementById('cv-download-btn').addEventListener('click',e=>{e.preventDefault();openCVModal();});
 document.getElementById('cv-download-btn2').addEventListener('click',e=>{e.preventDefault();openCVModal();});
@@ -1406,4 +1408,4 @@ document.getElementById('cf').addEventListener('submit',async e=>{
 });
 </script>
 </body>
-</html> 
+</html>
